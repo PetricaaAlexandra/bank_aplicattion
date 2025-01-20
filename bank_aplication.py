@@ -58,6 +58,8 @@ def login(user: str, auth_path: str = "auth.json") -> str:
 def account_balance(user: str, bank_path: str = "bank.json") -> str:
     with open(bank_path, "r") as f:
         accounts = json.loads(f.read())
+
+        #un comentariu aici 
     value = accounts[user]["value"]
     currency = accounts[user]["currency"]
 
