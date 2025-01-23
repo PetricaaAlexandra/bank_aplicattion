@@ -128,6 +128,32 @@ def get_username_by_phone(phone_number: str, clients_path: str = "clients.json")
 
 
 
+def add_money(user: str, money: int, bank_path: str= "bank.json"):
+    with open(bank_path, "r") as f:
+        accounts = json.loads(f.read())
+
+    accounts[user]['value'] = accounts[user]['value'] + money
+    with open(bank_path, "w") as f:
+        f.write(json.dumps(accounts,indent=4))
+    print("Tranzactia a facut efectuata cu succes!!!")
+
+
+
+def withdraw_money(user: str, money: int, bank_path: str= "bank.json"):
+    with open(bank_path, "r") as f:
+        accounts = json.loads(f.read())
+
+    account = accounts[user]
+    if money > accounts["value"]:
+        print("Fonduri insuficiente!!!")
+    else:
+        accounts[user]['value'] = accounts[user]['value'] - money
+        with open(bank_path, "w") as f:
+            f.write(json.dumps(accounts, indent=4))
+        print("Tranzactia a fost efectuata cu succes!!!")
+
+
+
 
 
 
@@ -151,9 +177,11 @@ if __name__ == '__main__':
                         transfer_money(username, receiver_id, amount)
 
                 case "3":
-                    pass
+                    money = int(input("Introduceti suma pe care doriti sa o retrageti: "))
+                    withdraw_money(username, money)
                 case "4":
-                    pass
+                     money = int(input("Introduceti suma pe care doriti sa o adaugati: "))
+                     add_money(username, money)
                 case "5":
                     currency = input("Ce vrei sa transformi? ")
                     # verificati sa fie currency corect
